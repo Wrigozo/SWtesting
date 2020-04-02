@@ -2,6 +2,7 @@ package hu.tigra.pti.geb.page
 
 import geb.Page
 import geb.module.RadioButtons
+import hu.tigra.pti.geb.module.ErrorMessages
 
 class RegisterPage extends Page {
 
