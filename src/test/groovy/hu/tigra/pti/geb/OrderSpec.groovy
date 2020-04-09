@@ -35,7 +35,7 @@ class OrderSpec extends BaseSpec {
 
         then: 'Megjelenik a "SHOPPING-CART SUMMARY" fejlécű oldal'
         def orderPage = waitFor { at OrderPage }
-        orderPage.header.text() == "Shopping-cart summary"
+        orderPage.header.text().startsWith("SHOPPING-CART SUMMARY")
 
         // 3. Házi feladat
         when: 'Rákattintok a plusz gombra az első sorban'
