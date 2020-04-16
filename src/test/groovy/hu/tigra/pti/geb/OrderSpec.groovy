@@ -3,6 +3,7 @@ package hu.tigra.pti.geb
 import hu.tigra.pti.geb.page.AdressesPage
 import hu.tigra.pti.geb.page.MainPage
 import hu.tigra.pti.geb.page.MyAccountPage
+import hu.tigra.pti.geb.page.OrderSummaryPage
 import hu.tigra.pti.geb.page.PayPage
 import hu.tigra.pti.geb.page.PopUpPage
 import hu.tigra.pti.geb.page.OrderPage
@@ -73,9 +74,14 @@ class OrderSpec extends BaseSpec {
         payPage.check.click()
 
         then: 'Megjelenik az "ORDER SUMMARY" fejlécű oldal'
+        def orderSummaryPage = waitFor{ at OrderSummaryPage}
+        orderSummaryPage.header.text()== "ORDER SUMMARY"
 
         when: 'Rákattintok az "I confirm my order" gombra'
 
+        orderSummaryPage.confirm.click()
+
         then: 'Megjelenik a sikeres rendelés üzenete: "Your order on My Store is complete."'
+        orderSummaryPage.successMessage.text()== "Your order on My Store is complete."
     }
 }
