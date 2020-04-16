@@ -1,9 +1,12 @@
 package hu.tigra.pti.geb
 
+import hu.tigra.pti.geb.page.AdressesPage
 import hu.tigra.pti.geb.page.MainPage
 import hu.tigra.pti.geb.page.MyAccountPage
+import hu.tigra.pti.geb.page.PayPage
 import hu.tigra.pti.geb.page.PopUpPage
 import hu.tigra.pti.geb.page.OrderPage
+import hu.tigra.pti.geb.page.ShippingPage
 
 class OrderSpec extends BaseSpec {
 
@@ -39,22 +42,35 @@ class OrderSpec extends BaseSpec {
 
         // 3. Házi feladat
         when: 'Rákattintok a plusz gombra az első sorban'
+        orderPage.summaryFirstRow.plusButton.click()
 
         then: 'A mennyiség 2-re változik'
+        waitFor { orderPage.summaryFirstRow.quantity == 2 }
 
         when: 'Rákattintok a "Proceed to checkout" gombra'
+        orderPage.paymentCheckButton.click()
 
         then: 'Megjelenik az "ADDRESSES" fejlécű oldal'
+        def addressesPage = waitFor { at AdressesPage }
+        addressesPage.header.text() == "ADDRESSES"
 
         when: 'Rákattintok a "Proceed to checkout" gombra'
+        addressesPage.checkButton.click()
 
         then: 'Megjelenik a "SHIPPING" fejlécű oldal'
+        def shippingPage = waitFor {at ShippingPage}
+        shippingPage.header.text()=="SHIPPING"
 
         when: 'Bepipálom a checkboxot és rákattintok a "Proceed to checkout" gombra'
+        shippingPage.checkBox.check()
+        shippingPage.checkButton.click()
 
         then: 'Megjelenik a "PLEASE CHOOSE YOUR PAYMENT METHOD" fejlécű oldal'
+        def payPage = waitFor { at PayPage }
+        payPage.header.text() == "PLEASE CHOOSE YOUR PAYMENT METHOD"
 
         when: 'Kiválasztom a csekk fizetési módot'
+        payPage.check.click()
 
         then: 'Megjelenik az "ORDER SUMMARY" fejlécű oldal'
 
